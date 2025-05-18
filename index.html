@@ -1,210 +1,43 @@
+<!-- opening.html -->
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Dashboard - Yulex Konstruktor</title>
-  <link rel="stylesheet" href="style.css"/>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Opening</title>
   <style>
-        body {
-      background: linear-gradient(135deg, #2c3e50, #3498db);
-    }
-.container {
-  margin-left: 180px;
-  padding: 20px;
-  padding-top: 80px;
-  max-width: 1000px;
-  color: #333;
-}
-     .sidebar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 60px;
-    height: 100vh;
-    background-color: #2c3e50;
-    transition: width 0.3s ease;
-    overflow-x: hidden;
-    z-index: 1000;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-  }
-
-  .sidebar:hover {
-    width: 220px;
-  }
-
-  .sidebar ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-
-  .sidebar ul li {
-    display: flex;
-    align-items: center;
-    padding: 20px 10px;
-    color: #ecf0f1;
-    cursor: pointer;
-    transition: background 0.2s;
-  }
-
-  .sidebar ul li:hover {
-    background-color: rgb(8, 131, 255);
-  }
-
-  .sidebar ul li i {
-    font-size: 20px;
-    width: 40px;
-    text-align: center;
-  }
-
-  .sidebar ul li span {
-    opacity: 0;
-    white-space: nowrap;
-    transition: opacity 0.3s;
-  }
-
-  .sidebar:hover ul li span {
-    opacity: 1;
-    margin-left: 5px;
-  }
-@media (max-width: 768px) {
-  .container {
-    margin-left: 0;
-    margin-top: 80px; /* supaya tidak tabrakan dengan navbar atas */
-    padding: 20px;
-    width: 100%;
-    box-sizing: border-box;
-  }
-
-  .barang-card {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .barang-card img {
-    width: 100%;
-    height: auto;
-  }
-
-  .barang-info p {
-    font-size: 14px;
-  }
-}
-
-  /* Responsive: ubah sidebar jadi navbar atas */
-  @media (max-width: 768px) {
-    .sidebar {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 60px;
-      flex-direction: row;
-      align-items: center;
+    body {
+      margin: 0;
+      height: 100vh;
+      background: linear-gradient(135deg, #5c5a5a, #2c3e50);
+      display: flex;
       justify-content: center;
-      padding: 0;
-    }
-
-    .sidebar:hover {
-      width: 100%;
-    }
-
-    .sidebar ul {
-      display: flex;
-      flex-direction: row;
-      justify-content: space-around;
       align-items: center;
-      width: 100%;
     }
-
-    .sidebar ul li {
-      flex-direction: column;
-      justify-content: center;
-      padding: 10px;
+    .logo {
+      width: 200px;
+      position: relative;
+      animation: shine 5s linear forwards;
     }
-
-    .sidebar ul li span {
-      display: none;
-    }
-  }
-
-    .barang-card {
-      background: #fff;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-      padding: 15px;
-      margin-bottom: 15px;
-      display: flex;
-      align-items: center;
-      gap: 20px;
-    }
-
-    .barang-card img {
-      width: 100px;
-      height: 100px;
-      object-fit: cover;
-      border-radius: 10px;
-    }
-
-    .barang-info {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .barang-info p {
-      margin: 5px 0;
-    }
-    h1 {
-      color: #ffffff;
-      text-align: center;
+    @keyframes shine {
+      0% {
+        filter: brightness(100%);
+      }
+      50% {
+        filter: brightness(200%);
+      }
+      100% {
+        filter: brightness(100%);
+      }
     }
   </style>
 </head>
 <body>
-  <!-- Sidebar -->
-  <div class="sidebar">
-    <ul>
-      <li onclick="location.href='index.html'"><i class="fas fa-home"></i><span>Dashboard</span></li>
-      <li onclick="location.href='input_barang.html'"><i class="fas fa-box-open"></i><span>Input Barang</span></li>
-      <li onclick="location.href='input_karyawan.html'"><i class="fas fa-user-plus"></i><span>Input Karyawan</span></li>
-      <li onclick="location.href='absen_karyawan.html'"><i class="fas fa-clipboard-check"></i><span>Absen Karyawan</span></li>
-      <li onclick="location.href='laporan_absen.html'"><i class="fas fa-file-alt"></i><span>Laporan Absen</span></li>
-    </ul>
-  </div>
-
-  <!-- Konten -->
-  <div class="container">
-    <h1>Data Barang</h1>
-    <div id="listBarang"></div>
-  </div>
-
+  <img src="logo_yulex_konstruktor.png" class="logo" />
   <script>
-    // Ambil data dari localStorage
-    const dataBarang = JSON.parse(localStorage.getItem("dataBarang")) || [];
-    const listBarang = document.getElementById("listBarang");
-
-    if (dataBarang.length === 0) {
-      listBarang.innerHTML = "<p>Belum ada data barang yang diinput.</p>";
-    } else {
-      dataBarang.forEach(barang => {
-        const card = document.createElement("div");
-        card.className = "barang-card";
-        card.innerHTML = `
-          <img src="${barang.nota}" alt="Nota"/>
-          <div class="barang-info">
-            <p><strong>Nama:</strong> ${barang.nama}</p>
-            <p><strong>Jumlah:</strong> ${barang.jumlah}</p>
-            <p><strong>Satuan:</strong> ${barang.satuan}</p>
-            <p><strong>Waktu:</strong> ${barang.waktu}</p>
-          </div>
-        `;
-        listBarang.appendChild(card);
-      });
-    }
+    setTimeout(() => {
+      window.location.href = "index.html";
+    }, 5000);
   </script>
 </body>
 </html>

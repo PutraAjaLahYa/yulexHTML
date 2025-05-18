@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Input Karyawan - Yulex Konstruktor</title>
+  <title>Dashboard - Yulex Konstruktor</title>
   <link rel="stylesheet" href="style.css"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
   <style>
@@ -11,14 +11,11 @@
       background: linear-gradient(135deg, #2c3e50, #3498db);
     }
 .container {
-  position: absolute;
-  top: 45%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  max-width: 500px;
-  width: 90%;
-  border-radius: 10px;
+  margin-left: 180px;
   padding: 20px;
+  padding-top: 80px;
+  max-width: 1000px;
+  color: #333;
 }
      .sidebar {
     position: fixed;
@@ -74,6 +71,29 @@
     opacity: 1;
     margin-left: 5px;
   }
+@media (max-width: 768px) {
+  .container {
+    margin-left: 0;
+    margin-top: 80px; /* supaya tidak tabrakan dengan navbar atas */
+    padding: 20px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .barang-card {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .barang-card img {
+    width: 100%;
+    height: auto;
+  }
+
+  .barang-info p {
+    font-size: 14px;
+  }
+}
 
   /* Responsive: ubah sidebar jadi navbar atas */
   @media (max-width: 768px) {
@@ -112,39 +132,31 @@
     }
   }
 
-    h1 {
-      color: #2c3e50;
-    }
-
-    form {
+    .barang-card {
       background: #fff;
-      padding: 20px;
       border-radius: 10px;
-      max-width: 500px;
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      padding: 15px;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
     }
 
-    form input, form button {
-      width: 95%;
-      padding: 10px;
-      margin-top: 10px;
-      border-radius: 5px;
-      border: 1px solid #ccc;
+    .barang-card img {
+      width: 100px;
+      height: 100px;
+      object-fit: cover;
+      border-radius: 10px;
     }
 
-    form input[readonly] {
-      background-color: #f4f4f4;
+    .barang-info {
+      display: flex;
+      flex-direction: column;
     }
 
-    form button {
-      background-color: #2c3e50;
-      color: #fff;
-      border: none;
-      cursor: pointer;
-    }
-
-    form button:hover {
-      background-color: #1a252f;
+    .barang-info p {
+      margin: 5px 0;
     }
     h1 {
       color: #ffffff;
@@ -166,38 +178,33 @@
 
   <!-- Konten -->
   <div class="container">
-    <h1>Input Karyawan</h1>
-    <form id="formKaryawan">
-      <input type="text" name="nama" placeholder="Nama Karyawan" required />
-      <input type="text" name="block" placeholder="Block" required />
-      <input type="text" name="waktu" id="waktu" readonly />
-      <button type="submit">Simpan Karyawan</button>
-    </form>
+    <h1>Data Barang</h1>
+    <div id="listBarang"></div>
   </div>
 
   <script>
-    // Set waktu otomatis saat halaman dibuka
-    document.getElementById("waktu").value = new Date().toLocaleString();
+    // Ambil data dari localStorage
+    const dataBarang = JSON.parse(localStorage.getItem("dataBarang")) || [];
+    const listBarang = document.getElementById("listBarang");
 
-    const form = document.getElementById("formKaryawan");
-
-    form.addEventListener("submit", function(e) {
-      e.preventDefault();
-
-      const nama = form.nama.value;
-      const block = form.block.value;
-      const waktu = form.waktu.value;
-
-      const karyawan = { nama, block, waktu };
-
-      const dataKaryawan = JSON.parse(localStorage.getItem("dataKaryawan")) || [];
-      dataKaryawan.push(karyawan);
-      localStorage.setItem("dataKaryawan", JSON.stringify(dataKaryawan));
-
-      alert("Karyawan berhasil disimpan!");
-      form.reset();
-      document.getElementById("waktu").value = new Date().toLocaleString();
-    });
+    if (dataBarang.length === 0) {
+      listBarang.innerHTML = "<p>Belum ada data barang yang diinput.</p>";
+    } else {
+      dataBarang.forEach(barang => {
+        const card = document.createElement("div");
+        card.className = "barang-card";
+        card.innerHTML = `
+          <img src="${barang.nota}" alt="Nota"/>
+          <div class="barang-info">
+            <p><strong>Nama:</strong> ${barang.nama}</p>
+            <p><strong>Jumlah:</strong> ${barang.jumlah}</p>
+            <p><strong>Satuan:</strong> ${barang.satuan}</p>
+            <p><strong>Waktu:</strong> ${barang.waktu}</p>
+          </div>
+        `;
+        listBarang.appendChild(card);
+      });
+    }
   </script>
 </body>
 </html>
