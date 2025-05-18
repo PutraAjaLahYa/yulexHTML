@@ -1,0 +1,43 @@
+<!-- opening.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Opening</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      background: linear-gradient(135deg, #5c5a5a, #2c3e50);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .logo {
+      width: 200px;
+      position: relative;
+      animation: shine 5s linear forwards;
+    }
+    @keyframes shine {
+      0% {
+        filter: brightness(100%);
+      }
+      50% {
+        filter: brightness(200%);
+      }
+      100% {
+        filter: brightness(100%);
+      }
+    }
+  </style>
+</head>
+<body>
+  <img src="logo_yulex_konstruktor.png" class="logo" />
+  <script>
+    setTimeout(() => {
+      window.location.href = "index.html";
+    }, 5000);
+  </script>
+</body>
+</html>

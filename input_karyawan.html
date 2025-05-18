@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Input Karyawan - Yulex Konstruktor</title>
+  <link rel="stylesheet" href="style.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <style>
+        body {
+      background: linear-gradient(135deg, #2c3e50, #3498db);
+    }
+.container {
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-width: 500px;
+  width: 90%;
+  border-radius: 10px;
+  padding: 20px;
+}
+     .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 60px;
+    height: 100vh;
+    background-color: #2c3e50;
+    transition: width 0.3s ease;
+    overflow-x: hidden;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .sidebar:hover {
+    width: 220px;
+  }
+
+  .sidebar ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .sidebar ul li {
+    display: flex;
+    align-items: center;
+    padding: 20px 10px;
+    color: #ecf0f1;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+
+  .sidebar ul li:hover {
+    background-color: rgb(8, 131, 255);
+  }
+
+  .sidebar ul li i {
+    font-size: 20px;
+    width: 40px;
+    text-align: center;
+  }
+
+  .sidebar ul li span {
+    opacity: 0;
+    white-space: nowrap;
+    transition: opacity 0.3s;
+  }
+
+  .sidebar:hover ul li span {
+    opacity: 1;
+    margin-left: 5px;
+  }
+
+  /* Responsive: ubah sidebar jadi navbar atas */
+  @media (max-width: 768px) {
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 60px;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+    }
+
+    .sidebar:hover {
+      width: 100%;
+    }
+
+    .sidebar ul {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-around;
+      align-items: center;
+      width: 100%;
+    }
+
+    .sidebar ul li {
+      flex-direction: column;
+      justify-content: center;
+      padding: 10px;
+    }
+
+    .sidebar ul li span {
+      display: none;
+    }
+  }
+
+    h1 {
+      color: #2c3e50;
+    }
+
+    form {
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      max-width: 500px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    form input, form button {
+      width: 95%;
+      padding: 10px;
+      margin-top: 10px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    form input[readonly] {
+      background-color: #f4f4f4;
+    }
+
+    form button {
+      background-color: #2c3e50;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+    }
+
+    form button:hover {
+      background-color: #1a252f;
+    }
+    h1 {
+      color: #ffffff;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <ul>
+      <li onclick="location.href='index.html'"><i class="fas fa-home"></i><span>Dashboard</span></li>
+      <li onclick="location.href='input_barang.html'"><i class="fas fa-box-open"></i><span>Input Barang</span></li>
+      <li onclick="location.href='input_karyawan.html'"><i class="fas fa-user-plus"></i><span>Input Karyawan</span></li>
+      <li onclick="location.href='absen_karyawan.html'"><i class="fas fa-clipboard-check"></i><span>Absen Karyawan</span></li>
+      <li onclick="location.href='laporan_absen.html'"><i class="fas fa-file-alt"></i><span>Laporan Absen</span></li>
+    </ul>
+  </div>
+
+  <!-- Konten -->
+  <div class="container">
+    <h1>Input Karyawan</h1>
+    <form id="formKaryawan">
+      <input type="text" name="nama" placeholder="Nama Karyawan" required />
+      <input type="text" name="block" placeholder="Block" required />
+      <input type="text" name="waktu" id="waktu" readonly />
+      <button type="submit">Simpan Karyawan</button>
+    </form>
+  </div>
+
+  <script>
+    // Set waktu otomatis saat halaman dibuka
+    document.getElementById("waktu").value = new Date().toLocaleString();
+
+    const form = document.getElementById("formKaryawan");
+
+    form.addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      const nama = form.nama.value;
+      const block = form.block.value;
+      const waktu = form.waktu.value;
+
+      const karyawan = { nama, block, waktu };
+
+      const dataKaryawan = JSON.parse(localStorage.getItem("dataKaryawan")) || [];
+      dataKaryawan.push(karyawan);
+      localStorage.setItem("dataKaryawan", JSON.stringify(dataKaryawan));
+
+      alert("Karyawan berhasil disimpan!");
+      form.reset();
+      document.getElementById("waktu").value = new Date().toLocaleString();
+    });
+  </script>
+</body>
+</html>
