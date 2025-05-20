@@ -7,18 +7,21 @@
     body {
       margin: 0;
       height: 100vh;
-      background: #111;
+       background: linear-gradient(135deg, #0f2027, #416c7a, #2baae0);
       display: flex;
       justify-content: center;
       align-items: center;
+      position: relative;
+      overflow: hidden;
     }
 
     .wrapper {
       position: relative;
       font-family: 'KoHo', sans-serif;
       font-size: 48px;
-      color: rgb(255, 255, 255);
+      color: white;
       overflow: hidden;
+      z-index: 2;
     }
 
     .typewriter {
@@ -27,6 +30,8 @@
       border-right: 4px solid white;
       width: 0;
       animation: typing 2s steps(6) forwards, blink 0.7s step-end infinite;
+      position: relative;
+      z-index: 2;
     }
 
     @keyframes typing {
@@ -53,6 +58,7 @@
       transform: translateX(-100%);
       animation: shineMove 1.5s ease-in-out 3s forwards;
       pointer-events: none;
+      z-index: 1;
     }
 
     @keyframes shineMove {
@@ -60,17 +66,44 @@
         transform: translateX(100%);
       }
     }
+
+    .logo {
+      position: absolute;
+      top: 49%; /* Mulai dari sedikit di bawah teks */
+      left: 50%;
+      transform: translate(-50%, 0);
+      width: 150px;
+      opacity: 0;
+      animation: logoSwipeUpBehindText 1s ease-out 2.2s forwards;
+      z-index: 1; /* DI BAWAH teks */
+    }
+
+    @keyframes logoSwipeUpBehindText {
+      0% {
+        transform: translate(-50%, 50%);
+        opacity: 0;
+      }
+      100% {
+        transform: translate(-50%, -100%);
+        opacity: 1;
+      }
+    }
   </style>
 </head>
 <body>
+
+  <!-- Logo muncul dari belakang teks -->
+  <img src="logo.png" class="logo" alt="Logo Yulex">
+
   <div class="wrapper">
     <div class="typewriter" id="text">Y U L E X</div>
     <div class="shine"></div>
   </div>
-</body>
- <script>
+
+  <script>
     setTimeout(() => {
       window.location.href = "dashboard.html";
     }, 5000);
   </script>
+</body>
 </html>
